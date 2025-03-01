@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "Projectile.h"
 #include "TowerType.h"
+#include "SoundManager.h"
 
 // The tower class represents a tower.
 class Tower {
@@ -20,7 +21,7 @@ public:
 
     // Updates the tower by checking for enemies in range and firing projectiles.
     void update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& enemies,
-        std::vector<Projectile>& projectiles);
+        std::vector<Projectile>& projectiles, SoundManager* soundManager);
 
     // Draws the tower using a simple rectangle shape.
     void draw(sf::RenderWindow& window) const;

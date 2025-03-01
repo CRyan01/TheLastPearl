@@ -19,10 +19,19 @@ Game::Game()
 
 // Initializes the game,
 bool Game::init() {
-    uiManager.getTowerMenu().close();
+    uiManager.getTowerMenu().close(&soundManager);
+    uiManager.setSoundManager(&soundManager); // Pass a reference to the sound manager to the ui manager.
 
-    soundManager.loadSound("shoot", "assets/shoot.wav");
-    soundManager.playBackgroundMusic("assets/background.ogg");
+    // Load the necessary sounds.
+    soundManager.loadSound("pistol", "sounds/pistol.ogg");
+    soundManager.loadSound("rifle", "sounds/rifle.ogg");
+    soundManager.loadSound("cannon", "sounds/cannon.ogg");
+    soundManager.loadSound("carronade", "sounds/carronade.ogg");
+    soundManager.loadSound("click", "sounds/click.ogg");
+    soundManager.loadSound("hit", "sounds/hit.ogg");
+    soundManager.loadSound("death", "sounds/death.ogg");
+    soundManager.loadSound("construction", "sounds/construction.ogg");
+    soundManager.playBackgroundMusic("sounds/background.ogg");
 
     // Setup a fixed resolution to make the view consistent.
     adjustViewFixed();
@@ -68,12 +77,12 @@ bool Game::init() {
             // If the tile clicked is a wall tile open the tower menu.
             if (gameMap.getTile(gridX, gridY).type == TileType::Wall) {
                 // Close any previously open menus.
-                uiManager.getTowerMenu().close();
+                uiManager.getTowerMenu().close(&soundManager);
                 // Open a new menu for the clicked wall tile.
-                uiManager.getTowerMenu().open({ gridX, gridY }, window.getSize());
+                uiManager.getTowerMenu().open({ gridX, gridY }, window.getSize(), &soundManager);
             } else {
                 // If a ground tile was clicked close the menu.
-                uiManager.getTowerMenu().close();
+                uiManager.getTowerMenu().close(&soundManager);
             }
         }
         });
@@ -130,6 +139,7 @@ void Game::checkCollisions() {
             if (projectileBounds.intersects(enemyBounds)) {
                 // If there is a collision, apply damage to the enemy.
                 enemy->takeDamage(projectile.getDamage());
+                soundManager.playSound("hit"); // Play an impact sound.
                 projectile.markInactive(); // Mark the projectile as inactive.
                 break; // Make sure only one enemy is hit per projectile.
             }
@@ -232,7 +242,7 @@ void Game::update(float deltaTime) {
                     // Print debug
                     std::cout << "A tower already exists at grid postion (" << gridPos.x << ", " << gridPos.y << ")\n";
                     // Close the menu if a tower exists on the tile already.
-                    uiManager.getTowerMenu().close();
+                    uiManager.getTowerMenu().close(&soundManager);
                 } else {
                     // If no tower exists on the tile, construct a new tower at that grid position with specified attributes.
                     sf::Vector2f towerPos(gridPos.x * tileSize + tileSize / 2.0f, gridPos.y * tileSize + tileSize / 2.0f);
@@ -245,13 +255,13 @@ void Game::update(float deltaTime) {
 
                     // Print debug
                     std::cout << "Tower Constructed at grid (" << gridPos.x << ", " << gridPos.y << ")\n";
-                    uiManager.getTowerMenu().close(); // Close the menu when finished.
+                    uiManager.getTowerMenu().close(&soundManager); // Close the menu when finished.
                 }
             } else {
                 // If the player cant afford to build the tower, print debug and close the menu.
                 sf::Vector2i gridPos = uiManager.getTowerMenu().getGridCoord();
                 std::cout << "Can't afford Tower at grid (" << gridPos.x << ", " << gridPos.y << ")\n";
-                uiManager.getTowerMenu().close();
+                uiManager.getTowerMenu().close(&soundManager);
             }
         }
     }
@@ -285,7 +295,7 @@ void Game::update(float deltaTime) {
     if (player.getLives() <= 0) {
         // Print debug.
         std::cout << "No lives left, generating a new level.\n";
-        uiManager.getTowerMenu().close(); // Close the tower menu.
+        uiManager.getTowerMenu().close(&soundManager); // Close the tower menu.
         levelManager.generateNewLevel(); // Generate a new lvel.
         enemies.clear(); // Clear old enemies.
         towers.clear(); // Clear old towers.
@@ -294,7 +304,7 @@ void Game::update(float deltaTime) {
 
     // Iterate through all towers and update them.
     for (auto& tower : towers) {
-        tower.update(deltaTime, enemies, projectiles);
+        tower.update(deltaTime, enemies, projectiles, &soundManager);
     }
 
     // Iterate through all projectiles and update them.
@@ -325,7 +335,7 @@ void Game::update(float deltaTime) {
 
     // Check if the player clicked the generate new level button.
     if (uiManager.isNewLevelButtonClicked()) {
-        uiManager.getTowerMenu().close(); // Close the menu.
+        uiManager.getTowerMenu().close(&soundManager); // Close the menu.
         levelManager.generateNewLevel(); // Generate a new level.
         enemies.clear(); // Delete old enemies.
         towers.clear(); // Delete old towers.

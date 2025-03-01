@@ -27,6 +27,9 @@ public:
         const std::vector<std::shared_ptr<class Enemy>>& enemies,
         const std::vector<class Tower>& towers);
 
+    // Sets the pointer to the games sound manager.
+    void setSoundManager(SoundManager* soundManager) { this->soundManager = soundManager; }
+
     // Returns a reference to the tower menu.
     TowerMenu& getTowerMenu();
 
@@ -39,6 +42,7 @@ public:
 private:
     TowerMenu towerMenu;  // Menu for selecting tower options.
     HUD hud;              // Heads-up display with global counters and indicators.
+    SoundManager* soundManager = nullptr; // Declare and initialize the sound manager as null.
 
     sf::RectangleShape newLevelButton; // Button background.
     sf::Text newLevelButtonText;         // Button text.

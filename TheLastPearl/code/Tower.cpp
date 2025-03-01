@@ -41,7 +41,7 @@ void Tower::setupVisual() {
 
 // Updates the tower, checks for enemies and fires projectiles when they enter the towers range.
 void Tower::update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& enemies,
-    std::vector<Projectile>& projectiles) {
+    std::vector<Projectile>& projectiles, SoundManager* soundManager) {
     // Store the amount of time passed since the tower last fired.
     timeSinceLastShot += deltaTime;
 
@@ -74,42 +74,62 @@ void Tower::update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& e
 
                 // Create a new projectile with attributes based on which tower it was shot from.
                 switch (type) {
-                case TowerType::Pistol: {
-                    // Pistol tower.
-                    projectiles.emplace_back(position, direction, 300.0f, finalDamage, 3.0f, sf::Color::Black, 200.0f);
-                    break;
-                }
-                case TowerType::Rifle: {
-                    // Rifle tower.
-                    projectiles.emplace_back(position, direction, 350.0f, finalDamage, 5.0f, sf::Color(80, 80, 80), 300.0f);
-                    break;
-                }
-                case TowerType::Cannon: {
-                    // Cannon tower.
-                    projectiles.emplace_back(position, direction, 150.0f, finalDamage, 10.0f, sf::Color::Black, 500.0f);
-                    break;
-                }
-                case TowerType::Carronade: {
-                    // Carronade tower
-                    const int numProjectiles = 5; // The number of projectiles fired in one shot.
-                    float spreadAngle = 15.0f; // The spread angle of the shot, in degrees.
-                    float spreadRad = spreadAngle * 3.14159f / 180.0f; // Convert degrees to radians.
+                    case TowerType::Pistol: {
+                        // Pistol tower.
+                        projectiles.emplace_back(position, direction, 300.0f, finalDamage, 3.0f, sf::Color::Black, 200.0f);
 
-                    // Loop through each projectile in the shot.
-                    for (int i = 0; i < numProjectiles; i++) {
-                        // Calculate an angle offset for each projectile.
-                        float angleOffset = ((float)i - (numProjectiles - 1) / 2.0f) * spreadRad;
-                        // Calculate the base angle.
-                        float baseAngle = std::atan2(direction.y, direction.x);
-                        // Calculate a new angle for each projectile.
-                        float newAngle = baseAngle + angleOffset;
-                        // Convert the new angle back to a directional vector.
-                        sf::Vector2f newDirection(std::cos(newAngle), std::sin(newAngle));
-                        // Create a projectile with the new spread direction.
-                        projectiles.emplace_back(position, newDirection, 180.0f, finalDamage, 7.0f, sf::Color::Black, 150.0f);
+                        // Check if the sound manager is valid and play a shoot sound.
+                        if (soundManager) {
+                            soundManager->playSound("pistol");
+                        }
+                        break;
                     }
-                    break;
-                }
+                    case TowerType::Rifle: {
+                        // Rifle tower.
+                        projectiles.emplace_back(position, direction, 350.0f, finalDamage, 5.0f, sf::Color(80, 80, 80), 300.0f);
+
+                        // Check if the sound manager is valid and play a shoot sound.
+                        if (soundManager) {
+                            soundManager->playSound("rifle");
+                        }
+                        break;
+                    }
+                    case TowerType::Cannon: {
+                        // Cannon tower.
+                        projectiles.emplace_back(position, direction, 150.0f, finalDamage, 10.0f, sf::Color::Black, 500.0f);
+
+                        // Check if the sound manager is valid and play a shoot sound.
+                        if (soundManager) {
+                            soundManager->playSound("cannon");
+                        }
+                        break;
+                    }
+                    case TowerType::Carronade: {
+                        // Carronade tower
+                        const int numProjectiles = 5; // The number of projectiles fired in one shot.
+                        float spreadAngle = 15.0f; // The spread angle of the shot, in degrees.
+                        float spreadRad = spreadAngle * 3.14159f / 180.0f; // Convert degrees to radians.
+
+                        // Loop through each projectile in the shot.
+                        for (int i = 0; i < numProjectiles; i++) {
+                            // Calculate an angle offset for each projectile.
+                            float angleOffset = ((float)i - (numProjectiles - 1) / 2.0f) * spreadRad;
+                            // Calculate the base angle.
+                            float baseAngle = std::atan2(direction.y, direction.x);
+                            // Calculate a new angle for each projectile.
+                            float newAngle = baseAngle + angleOffset;
+                            // Convert the new angle back to a directional vector.
+                            sf::Vector2f newDirection(std::cos(newAngle), std::sin(newAngle));
+                            // Create a projectile with the new spread direction.
+                            projectiles.emplace_back(position, newDirection, 180.0f, finalDamage, 7.0f, sf::Color::Black, 150.0f);
+
+                            // Check if the sound manager is valid and play a shoot sound.
+                            if (soundManager) {
+                                soundManager->playSound("carronade");
+                            }
+                        }
+                        break;
+                    }
                 }
                 timeSinceLastShot = 0.0f; // Reset the time since the tower last fired.
                 break; // Dont check further enemies once the tower has fired.

@@ -1,7 +1,12 @@
+// Name: Conor Ryan
+// K-NUM: K00286377
+
 #pragma once
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <string>
+#include "SoundManager.h"
 
 // A struct which represents an options in the tower menu.
 struct TowerOption {
@@ -16,8 +21,8 @@ public:
     // Default contructor for the tower menu.
     TowerMenu();
 
-    // Opens the menu at the specified grid position.
-    void open(const sf::Vector2i& gridPos, const sf::Vector2u& windowSize);
+    // Opens the menu at the specified grid position. Pass a reference to the sound manager to play a sound.
+    void open(const sf::Vector2i& gridPos, const sf::Vector2u& windowSize, SoundManager* soundManager);
 
     // Handles clicks within the tower menu, stores the selected option.
     void handleInput(const sf::Event& event, const sf::Vector2f& worldPos);
@@ -31,8 +36,8 @@ public:
     // Returns true if the menu is open.
     bool isOpen() const;
 
-    // Closes the menu.
-    void close();
+    // Closes the menu. Pass a reference to the sound manager to play a sound.
+    void close(SoundManager* soundManager);
 
     // Returns the top left pixel position of the menu.
     sf::Vector2i getPosition() const;

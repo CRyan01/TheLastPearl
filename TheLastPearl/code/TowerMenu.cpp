@@ -37,7 +37,7 @@ TowerMenu::TowerMenu() : openFlag(false), selectedOption(-1) {
 }
 
 // Opens the tower menu at the specified coordinates.
-void TowerMenu::open(const sf::Vector2i& gridPos, const sf::Vector2u& windowSize) {
+void TowerMenu::open(const sf::Vector2i& gridPos, const sf::Vector2u& windowSize, SoundManager* soundManager) {
     const int tileSize = 64; // The size of an ingame tile in pixels.
     const int scoreboardMargin = 60; // Spacing for when the menu opens near the top of the screen.
     int menuHeight = getMenuHeight();  // Calculate menu height based on the number of available options.
@@ -61,6 +61,11 @@ void TowerMenu::open(const sf::Vector2i& gridPos, const sf::Vector2u& windowSize
 
     openFlag = true; // Mark the menu as open.
     selectedOption = -1; // Reset the currently selected option.
+
+    // Check if the sound manager is valid & play a click sound.
+    if (soundManager) {
+        soundManager->playSound("click");
+    }
 
     // Print debug
     std::cout << "Tower menu opened at gridPos (" << gridPos.x << ", " << gridPos.y
@@ -112,10 +117,6 @@ void TowerMenu::handleInput(const sf::Event& event, const sf::Vector2f& worldPos
                 // Print debug if an invalid option was clicked.
                 std::cout << "Invalid tower construction option...\n";
             }
-        } else {
-            // Close the menu if the player clicks outside the menu.
-            std::cout << "Click outside tower menu, closing menu.\n";
-            close(); // Close the tower menu.
         }
     }
 }
@@ -174,9 +175,14 @@ bool TowerMenu::isOpen() const {
 }
 
 // Closes the tower menu and resets the selected option.
-void TowerMenu::close() {
+void TowerMenu::close(SoundManager* soundManager) {
     openFlag = false;
     selectedOption = -1;
+
+    // Check if the sound manager is valid & play a click sound.
+    if (soundManager) {
+        soundManager->playSound("click");
+    }
 }
 
 // Returns the top left position of the tower menu.

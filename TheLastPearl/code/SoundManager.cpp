@@ -26,6 +26,9 @@ void SoundManager::loadSound(const std::string& name, const std::string& filenam
     // Set the buffer to the new one.
     sound.setBuffer(soundBuffers[name]);
 
+    // Set the sounds volume to 7%.
+    sound.setVolume(7.0f);
+
     // Store the sound in the sound map for later use.
     sounds[name] = sound;
 }
@@ -50,6 +53,7 @@ void SoundManager::playBackgroundMusic(const std::string& filename, bool loop) {
         return;
     }
     backgroundMusic.setLoop(loop); // Set the track to loop if specified.
+    backgroundMusic.setVolume(30.f); // Set volume to 30%
     backgroundMusic.play(); // Play the track.
 }
 

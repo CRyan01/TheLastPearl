@@ -14,9 +14,6 @@ public:
 	// Constructor - creates a map using specified parameters.
 	Map(int width, int height, int numClusters, int minClusterSize, int maxClusterSize);
 
-	// Loads a map layout from a file.
-	bool loadFromFile(const std::string& filename);
-
 	// Generates a random map.
 	void generateRandom();
 

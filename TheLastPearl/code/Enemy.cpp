@@ -54,8 +54,9 @@ void Enemy::update(float deltaTime, int tileSize) {
     shape.setPosition(position);
 
     // If the enemy is close to the current waypoint, cycle to the next one.
-    if (distance < 5.0f && currentWaypoint < path.size())
+    if (distance < 5.0f && currentWaypoint < path.size()) {
         currentWaypoint++;
+    }
 }
 
 // Draws the enemies shape in the SFML view.

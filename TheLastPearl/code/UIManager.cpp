@@ -47,7 +47,7 @@ void UIManager::processEvent(const sf::Event& event, sf::RenderWindow& window) {
 
             // If the click is outside the menu close it.
             if (!menuRect.contains(worldPos)) {
-                towerMenu.close();
+                towerMenu.close(soundManager);
                 return;
             }
 
