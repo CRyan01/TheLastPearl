@@ -4,6 +4,9 @@
 #include "Tower.h"
 #include "CombatUtilities.h"
 #include <cmath>
+#include <iostream>
+
+sf::Texture Tower::towerTexture; // load only once.
 
 // A parameterized constructor to initialize the tower class with specified attributes.
 Tower::Tower(const sf::Vector2f& pos, TowerType type,
@@ -18,6 +21,21 @@ Tower::Tower(const sf::Vector2f& pos, TowerType type,
 // Sets up the visual apperance of a tower based on its type.
 void Tower::setupVisual() {
     visual.setSize(sf::Vector2f(40, 40)); // Set a size of 40x40.
+
+    // Try to load a texture for the tower.
+    if (!towerTexture.loadFromFile("graphics/tower.png")) {
+        std::cout << "Couldnt load the tower texture.\n";
+    }
+    // Set the sprites texture.
+    towerSprite.setTexture(towerTexture);
+
+    // Center the sprites origin.
+    sf::FloatRect spriteBounds = towerSprite.getLocalBounds();
+    towerSprite.setOrigin(spriteBounds.width / 2.0f, spriteBounds.height / 2.0f);
+
+    // Set the sprites scale and position.
+    towerSprite.setScale(0.5f, 0.5f);
+    towerSprite.setPosition(position);
 
     // Set a color based on the towers type.
     switch (type) {
@@ -140,7 +158,8 @@ void Tower::update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& e
 
 // Draws the tower in the specified window.
 void Tower::draw(sf::RenderWindow& window) const {
-    window.draw(visual);
+    // window.draw(visual);
+    window.draw(towerSprite);
 }
 
 // Returns the price of a tower.

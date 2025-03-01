@@ -49,4 +49,6 @@ private:
     float maxHealth;                    // Max health.
     EnemyType type;                     // The enemies type.
     sf::CircleShape shape;              // A visual representation of the enemy.
+    sf::Texture enemyTexture;           // A texture for the enemies sprite.
+    sf::Sprite enemySprite;             // A sprite to represent the enemy.
 };

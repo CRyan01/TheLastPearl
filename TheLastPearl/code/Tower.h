@@ -51,5 +51,8 @@ private:
 
     sf::RectangleShape visual;  // A visual representation of the tower.
 
+    static sf::Texture towerTexture; // A static texture for the towers sprite.
+    sf::Sprite towerSprite; // A sprite to represent the tower.
+
     void setupVisual(); // Adjusts the towers visual based on its type.
 };

@@ -1,4 +1,6 @@
 Assets Used:
-https://kenney.nl/assets/ui-audio // UI sounds
 https://opengameart.org/content/q009s-weapon-sounds // Weapon sounds
-https://opengameart.org/content/impact // Hit sounds
+https://opengameart.org/content/35-wooden-crackshitsdestructions // Hit sounds
+https://opengameart.org/content/fast-hammer-sfx // Constuction sound effect
+// https://opengameart.org/content/click // Menu Sound
+https://kenney.nl/assets/pirate-pack // Ship & Tower Sprites

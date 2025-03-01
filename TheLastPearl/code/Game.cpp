@@ -27,7 +27,7 @@ bool Game::init() {
     soundManager.loadSound("rifle", "sounds/rifle.ogg");
     soundManager.loadSound("cannon", "sounds/cannon.ogg");
     soundManager.loadSound("carronade", "sounds/carronade.ogg");
-    soundManager.loadSound("click", "sounds/click.ogg");
+    soundManager.loadSound("click", "sounds/click.wav");
     soundManager.loadSound("hit", "sounds/hit.ogg");
     soundManager.loadSound("death", "sounds/death.ogg");
     soundManager.loadSound("construction", "sounds/construction.ogg");
@@ -140,7 +140,17 @@ void Game::checkCollisions() {
                 // If there is a collision, apply damage to the enemy.
                 enemy->takeDamage(projectile.getDamage());
                 soundManager.playSound("hit"); // Play an impact sound.
+
+                // Store the old health value to check later.
+                float oldHealth = enemy->getHealth();
+
                 projectile.markInactive(); // Mark the projectile as inactive.
+
+                // Check if the enemy was killed.
+                if (oldHealth > 0 && enemy->getHealth() <= 0) {
+                    // If it was play a death sound effect.
+                    soundManager.playSound("death");
+                }
                 break; // Make sure only one enemy is hit per projectile.
             }
         }
@@ -199,6 +209,7 @@ void Game::update(float deltaTime) {
                     // Rifle tower.
                     selectedType = TowerType::Rifle;
                     price = 500.0f;
+                    break;
                 case 2:
                     // Cannon tower.
                     selectedType = TowerType::Cannon;
@@ -252,6 +263,8 @@ void Game::update(float deltaTime) {
 
                     // Take the cost of the tower from the player.
                     player.spend(price);
+
+                    soundManager.playSound("construction"); // Play a building sound.
 
                     // Print debug
                     std::cout << "Tower Constructed at grid (" << gridPos.x << ", " << gridPos.y << ")\n";
