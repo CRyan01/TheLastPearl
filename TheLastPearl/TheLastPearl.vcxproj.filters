@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Core &amp; Level Structure">
+      <UniqueIdentifier>{df621d16-aa0f-4234-8c14-81e20f0d4f82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Entities">
+      <UniqueIdentifier>{087832f9-0af4-42b4-b822-d921e1d7656f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input Management">
+      <UniqueIdentifier>{c02cb656-5270-4636-8b43-0340888c605e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Level Management">
+      <UniqueIdentifier>{9c5b6264-ae4c-4243-a002-8700a594ef82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pathfinding">
+      <UniqueIdentifier>{a67ddaae-8585-4d2c-adef-df05d0c598aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sound Management">
+      <UniqueIdentifier>{7a661849-fa84-4a83-b63e-5db596c5d5b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\User Interface">
+      <UniqueIdentifier>{a5f06804-acb6-48ca-8346-42dd559edcd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Core &amp; Level Structure">
+      <UniqueIdentifier>{4908f070-4df9-4a9c-b0ad-4a618fe9aba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Game Entities">
+      <UniqueIdentifier>{3b205290-6150-4815-9351-937624ea3023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Game Manager">
+      <UniqueIdentifier>{2e77935b-76a8-4531-94f9-cd2779373982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Input Management">
+      <UniqueIdentifier>{36e47129-a8c5-4445-b9c5-e4a7173bbdbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Level Management">
+      <UniqueIdentifier>{60ca6186-3262-4534-9229-0fbba0496d97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Pathfinding">
+      <UniqueIdentifier>{832515e4-2995-4a49-aabb-0073ac8714fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Sound Management">
+      <UniqueIdentifier>{29823174-274f-4857-b5dc-04092ebd01d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\User Interface">
+      <UniqueIdentifier>{228fdab3-8e79-4395-85cb-0f39bcafd6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Manager">
+      <UniqueIdentifier>{4d3b5629-e4ba-4815-ade2-b54da5e3913b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="code\Map.cpp">
+      <Filter>Resource Files\Core &amp; Level Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Tower.cpp">
+      <Filter>Resource Files\Game Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Projectile.cpp">
+      <Filter>Resource Files\Game Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Player.cpp">
+      <Filter>Resource Files\Game Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Enemy.cpp">
+      <Filter>Resource Files\Game Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Game.cpp">
+      <Filter>Resource Files\Game Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="code\InputManager.cpp">
+      <Filter>Resource Files\Input Management</Filter>
+    </ClCompile>
+    <ClCompile Include="code\LevelManager.cpp">
+      <Filter>Resource Files\Level Management</Filter>
+    </ClCompile>
+    <ClCompile Include="code\UIManager.cpp">
+      <Filter>Resource Files\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="code\TowerMenu.cpp">
+      <Filter>Resource Files\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="code\HUD.cpp">
+      <Filter>Resource Files\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="code\SoundManager.cpp">
+      <Filter>Resource Files\Sound Management</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Pathfinder.cpp">
+      <Filter>Resource Files\Pathfinding</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="code\Map.h">
+      <Filter>Header Files\Core &amp; Level Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Tile.h">
+      <Filter>Header Files\Core &amp; Level Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Enemy.h">
+      <Filter>Header Files\Game Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="code\EnemyType.h">
+      <Filter>Header Files\Game Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Player.h">
+      <Filter>Header Files\Game Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Projectile.h">
+      <Filter>Header Files\Game Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Tower.h">
+      <Filter>Header Files\Game Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="code\TowerType.h">
+      <Filter>Header Files\Game Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="code\InputManager.h">
+      <Filter>Header Files\Input Management</Filter>
+    </ClInclude>
+    <ClInclude Include="code\LevelManager.h">
+      <Filter>Header Files\Level Management</Filter>
+    </ClInclude>
+    <ClInclude Include="code\HUD.h">
+      <Filter>Header Files\User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="code\TowerMenu.h">
+      <Filter>Header Files\User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="code\UIManager.h">
+      <Filter>Header Files\User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="code\SoundManager.h">
+      <Filter>Header Files\Sound Management</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Pathfinder.h">
+      <Filter>Header Files\Pathfinding</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Game.h">
+      <Filter>Header Files\Game Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="code\CombatUtilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
