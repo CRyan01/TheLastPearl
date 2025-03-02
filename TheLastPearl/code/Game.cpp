@@ -392,23 +392,52 @@ void Game::render() {
     if (paused) {
         // Get the current view from the window.
         sf::View view = window.getView();
-        sf::Vector2f viewSize = view.getSize();
+        sf::Vector2f viewSize = view.getSize(); // Get the size of the current view.
 
-        // Overlay a semi-transparent black rectangle that covers the screen.
-        sf::RectangleShape pausedOverlay(viewSize);
-        pausedOverlay.setFillColor(sf::Color(0, 0, 0, 150));
-        pausedOverlay.setPosition(view.getCenter() - viewSize / 2.f);
-        window.draw(pausedOverlay);
+        // Try to load the font.
+        sf::Font font;
+        if (!font.loadFromFile("fonts/OpenDyslexic3-Regular.ttf")) {
+            // If theres a problem print debug.
+            std::cout << "couldnt load overlay font.\n";
+        }
 
-        // Draw text to indicate the game is paused in the center of the screen.
-        sf::Text pauseText;
-        pauseText.setString("Paused");
-        pauseText.setCharacterSize(32);
-        pauseText.setFillColor(sf::Color::White);
-        sf::FloatRect textBounds = pauseText.getLocalBounds();
-        pauseText.setOrigin(textBounds.left + textBounds.width / 2, textBounds.top + textBounds.height / 2);
-        pauseText.setPosition(view.getCenter());
-        window.draw(pauseText);
+        // Add instructions to the pause overlay.
+        sf::Text instructions;
+        instructions.setFont(font);
+        instructions.setCharacterSize(32);
+        instructions.setFillColor(sf::Color::White);
+        instructions.setString(
+            "                  Paused:\n"
+            "1. To build a tower, click a wall tile and select a tower.\n"
+            "2. When an enemy reaches the pearl you lose one life.\n"
+            "3. Click the new level button to generate a new level.\n"
+            "4. Unit Matchups: Pistol > Marauders, Rifle > Privateers,\n"
+            "   Cannon > Corsairs, Carronade > Captains.\n"
+            "5. Use the number keys (1-4) to quickly place a tower.\n"
+            "6. Press 'P' to unpause or pause the game at any time."
+        );
+
+        // Get the local bounds of the instructions text.
+        sf::FloatRect textBounds = instructions.getLocalBounds();
+        float padding = 30.0f; // Overlay padding
+
+        // Create a semi transparent background rectangle with a white border
+        sf::RectangleShape background(sf::Vector2f(textBounds.width + 2 * padding, textBounds.height + 2 * padding));
+        background.setFillColor(sf::Color(50, 50, 50, 200)); // Dark gray transparent.
+        background.setOutlineColor(sf::Color(255, 255, 255, 200)); // White transparent.
+        background.setOutlineThickness(2.0f);
+
+        // Center the origin for the background and overlay.
+        instructions.setOrigin(textBounds.left + textBounds.width / 2, textBounds.top + textBounds.height / 2);
+        background.setOrigin((textBounds.width + 2 * padding) / 2, (textBounds.height + 2 * padding) / 2);
+
+        // Center the background and overlay.
+        sf::Vector2f center = view.getCenter();
+        background.setPosition(center);
+        instructions.setPosition(center);
+
+        window.draw(background); // Draw the background first.
+        window.draw(instructions); // Draw the instructions.
     }
     // Display the frame on the window.
     window.display();

@@ -47,7 +47,7 @@ private:
 
     sf::RenderWindow window;                   // The games window
     bool running;                              // A flag which indicates if the game is running or not
-    bool paused = false;                       // A flag to pause the game.
+    bool paused = true;                       // A flag to pause the game.
 
     Map gameMap;                               // The games map.
     Pathfinder pathfinder;                     // A pathfinder to create paths for enemies.

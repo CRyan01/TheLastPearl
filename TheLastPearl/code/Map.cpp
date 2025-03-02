@@ -64,17 +64,18 @@ void Map::draw(sf::RenderWindow& window, int tileSize) const {
             if (tilePosition == targetPoint) {
                 tileRectangle.setFillColor(sf::Color::White); // White tile.
             } else if (std::find(entryPoints.begin(), entryPoints.end(), tilePosition) != entryPoints.end()) {
-                tileRectangle.setFillColor(sf::Color::Red); // Red tile.
+                //tileRectangle.setFillColor(sf::Color::Red); // Red tile.
+                tileRectangle.setFillColor(sf::Color(54, 154, 213)); // Water blue.
             } else if (getTile(tileX, tileY).type == TileType::Wall) {
                 // Apply a checkered pattern to the walls.
                 if ((tileX + tileY) % 2 == 0) {
-                    tileRectangle.setFillColor(sf::Color(139, 69, 19)); // Light brown.
+                    tileRectangle.setFillColor(sf::Color(237, 201, 175)); // Sand color.
                 }
                 else {
-                    tileRectangle.setFillColor(sf::Color(160, 82, 45));  // Dark Brown.
+                    tileRectangle.setFillColor(sf::Color(210, 180, 140)); // Slightly darker sand color.
                 }
             } else {
-                tileRectangle.setFillColor(sf::Color(237, 201, 175)); // Sand color.
+                tileRectangle.setFillColor(sf::Color(54, 154, 213)); // Water blue.
             }
             // Set the position for the tile then draw it with the right dimensions.
             tileRectangle.setPosition((tileX * tileSize), (tileY * tileSize));
