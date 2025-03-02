@@ -36,7 +36,18 @@ bool Game::init() {
     // Setup a fixed resolution to make the view consistent.
     adjustViewFixed();
 
+    // Load the old high scores.
     scoreboard.loadScores("scores/scores.txt");
+
+    // Hide the default cursor.
+    window.setMouseCursorVisible(false);
+
+    // Load the custom cursors texture.
+    if (!customCursorTexture.loadFromFile("graphics/cursor.png")) {
+        std::cout << "Couldnt load custom cursor.\n";
+    }
+    // Set the new cursor texture.
+    customCursorSprite.setTexture(customCursorTexture);
 
     // Initialize the UI manager, return if there is a problem.
     if (!uiManager.init()) {
@@ -48,10 +59,13 @@ bool Game::init() {
         if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Escape) {
                 // If 'Escape' is pressed close the game.
+                soundManager.playSound("click"); // Play a click sound
                 window.close();
             } else if (event.key.code == sf::Keyboard::P) {
                 // If 'P' is pressed pause the game.
                 paused = !paused;
+
+                soundManager.playSound("click"); // Play a click sound
                 
                 // Print debug.
                 if (paused) {
@@ -62,6 +76,7 @@ bool Game::init() {
             } else if (event.key.code == sf::Keyboard::S) {
                 // If the 'S' key is pressed change the pause menu
                 // from a set of instructions to a scoreboard.
+                soundManager.playSound("click"); // Play a click sound
                 showScoreboard = !showScoreboard; // Toggle display.
             }
         }
@@ -387,14 +402,14 @@ void Game::render() {
         enemy->draw(window);
     }
 
-    // Draw all projectiles.
-    for (const auto& proj : projectiles) {
-        proj.draw(window);
-    }
-
     // Draw all towers.
     for (const auto& tower : towers) {
         tower.draw(window);
+    }
+
+    // Draw all projectiles.
+    for (const auto& proj : projectiles) {
+        proj.draw(window);
     }
 
     // Draw all UI elements.
@@ -425,15 +440,22 @@ void Game::render() {
             instructions.setCharacterSize(32);
             instructions.setFillColor(sf::Color::White);
             instructions.setString(
-                "                  Paused:\n"
+                "The Last Pearl\n"
+                "Before we were nothing, mere tools for those filthy fools\n"
+                "inhuman and unfeeling. The pearl, ethereal in nature,\n"
+                "was looted and placed in my hold, and it began to animate\n"
+                "me and my brethren. The rotting, unkempt wood of our bows\n"
+                "and the tattered sails of our masts sing in unison as we rise\n"
+                "against our common enemy... pirates !!! Defend the pearl !\n"
+                "Gameplay Instructions:\n"
                 "1. To build a tower, click a wall tile and select a tower.\n"
-                "2. When an enemy reaches the pearl you lose one life.\n"
+                "2. When an enemy reaches the pearl, you lose one life.\n"
                 "3. Click the new level button to generate a new level.\n"
                 "4. Unit Matchups: Pistol > Marauders, Rifle > Privateers,\n"
                 "   Cannon > Corsairs, Carronade > Captains.\n"
                 "5. Use the number keys (1-4) to quickly place a tower.\n"
-                "6. Press 'P' to unpause or pause the game at any time.\n"
-                "6. Press 'S' to toggle between scores/instructions."
+                "6. Press 'P' to pause/unpause the game at any time.\n"
+                "7. Press 'S' to toggle between scores and instructions."
             );
 
             // Get the local bounds of the instructions text.
@@ -459,6 +481,13 @@ void Game::render() {
             window.draw(instructions); // Draw the instructions.
         }
     }
+
+    // Draw the custom cursor.
+    sf::Vector2i pixelPos = sf::Mouse::getPosition(window);
+    sf::Vector2f worldPos = window.mapPixelToCoords(pixelPos);
+    customCursorSprite.setPosition(worldPos);
+    window.draw(customCursorSprite);
+
     // Display the frame on the window.
     window.display();
 }

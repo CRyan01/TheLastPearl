@@ -1,4 +1,5 @@
 #pragma once
+
 #include "TowerType.h"
 #include "EnemyType.h"
 
@@ -13,5 +14,5 @@ float calculateDamageMultiplier(TowerType towerType, EnemyType enemyType) {
     else if (towerType == TowerType::Carronade && enemyType == EnemyType::Captain)
         return 1.5f;
     else
-        return 1.0f;
+        return 0.8f;
 }

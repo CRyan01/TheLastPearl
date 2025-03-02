@@ -47,16 +47,17 @@ void TowerMenu::open(const sf::Vector2i& gridPos, const sf::Vector2u& windowSize
     position.x = gridPos.x * tileSize + tileSize;
     position.y = gridPos.y * tileSize - menuHeight;
 
-    // Check if the menu overlaps with the scoreboard.
-    if (position.y < scoreboardMargin) {
-        // If it does move it below it.
-        position.y = scoreboardMargin;
-    }
-
-    // Check if the menu passes the right edge of the screen.
-    if (position.x + getMenuWidth() > windowSize.x) {
-        // If it does move it.
+    // Check if the menu passes the right edge of the screen, if it does move it.
+    if (gridPos.x > 25) {
         position.x = gridPos.x * tileSize - getMenuWidth();
+    } else {
+        position.x = gridPos.x * tileSize + tileSize;
+    }
+    position.y = gridPos.y * tileSize - menuHeight;
+
+    // Check if the menu overlaps with the scoreboard. If it does move it below it.
+    if (position.y < scoreboardMargin) {
+        position.y = scoreboardMargin;
     }
 
     openFlag = true; // Mark the menu as open.

@@ -65,4 +65,6 @@ private:
     Scoreboard scoreboard;                     // Handles saving and loading of score.
 
     sf::Clock clock;                           // Keeps track of elapsed time.
+    sf::Texture customCursorTexture;           // A texture for the custom cursor.
+    sf::Sprite customCursorSprite;            // A Sprite for the custom cursor.
 };

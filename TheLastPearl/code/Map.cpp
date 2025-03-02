@@ -230,8 +230,8 @@ void Map::generateRandom() {
     while (clustersPlaced < numClusters && clusterPlacementAttempts < maximumAttempts) {
         ++clusterPlacementAttempts;
         // Choose a random starting point thats within the inner area.
-        int randomTileX = rand() % (width - 2) + 1;
-        int randomTileY = rand() % (height - 2) + 1;
+        int randomTileX = rand() % (width - 4) + 2;
+        int randomTileY = rand() % (height - 4) + 2;
         sf::Vector2i currentPosition(randomTileX, randomTileY);
 
         // Generate a random cluster size between min and max clusterSize.

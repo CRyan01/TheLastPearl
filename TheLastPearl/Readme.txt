@@ -9,3 +9,4 @@ https://opengameart.org/content/fast-hammer-sfx // Constuction sound effect
 https://kenney.nl/assets/pirate-pack // Ship, Tower, and Tile Sprites
 https://opengameart.org/content/16x16-pearl // Pearl Sprite
 https://opengameart.org/content/pirate-music // Music
+https://kenney.nl/assets/cursor-pack // Custom Cursor
