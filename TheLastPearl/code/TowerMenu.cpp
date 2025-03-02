@@ -8,10 +8,10 @@
 // Constructor for the tower menu. Initialzes the menu in a closed state with no selected option.
 TowerMenu::TowerMenu() : openFlag(false), selectedOption(-1) {
     // Create a vector of options for the menu
-    options.push_back({ "Pistol Tower", 150.0f });
-    options.push_back({ "Rifle Tower", 150.0f });
-    options.push_back({ "Cannon Tower", 150.0f });
-    options.push_back({ "Carronade Tower", 150.0f });
+    options.push_back({ "Pistol Tower", 300.0f });
+    options.push_back({ "Rifle Tower", 500.0f });
+    options.push_back({ "Cannon Tower", 1000.0f });
+    options.push_back({ "Carronade Tower", 3000.0f });
 
     // Try to load the font from a file.
     if (!font.loadFromFile("fonts/OpenDyslexic3-Regular.ttf")) {
