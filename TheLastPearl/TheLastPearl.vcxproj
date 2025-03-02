@@ -28,6 +28,7 @@
     <ClCompile Include="code\Pathfinder.cpp" />
     <ClCompile Include="code\Player.cpp" />
     <ClCompile Include="code\Projectile.cpp" />
+    <ClCompile Include="code\Scoreboard.cpp" />
     <ClCompile Include="code\SoundManager.cpp" />
     <ClCompile Include="code\Tower.cpp" />
     <ClCompile Include="code\TowerMenu.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="code\Pathfinder.h" />
     <ClInclude Include="code\Player.h" />
     <ClInclude Include="code\Projectile.h" />
+    <ClInclude Include="code\Scoreboard.h" />
     <ClInclude Include="code\SoundManager.h" />
     <ClInclude Include="code\Tile.h" />
     <ClInclude Include="code\Tower.h" />

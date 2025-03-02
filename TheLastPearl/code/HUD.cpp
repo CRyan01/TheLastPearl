@@ -170,8 +170,8 @@ void HUD::draw(sf::RenderWindow& window, int money, int lives, int wave, int kil
         sf::Text towerLabel; // Create a text object for the label.
         towerLabel.setFont(font); // Set the labels font.
 
-        // Set the labels properties and add a number as a prefix to the label - expand further.
-        towerLabel.setString("1 " + towerTypeToString(tower.getType()));
+        // Set the labels properties - expand further.
+        towerLabel.setString(towerTypeToString(tower.getType()));
         towerLabel.setCharacterSize(10);
         towerLabel.setFillColor(sf::Color::White);
 

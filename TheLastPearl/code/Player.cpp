@@ -43,3 +43,8 @@ void Player::loseLife() {
 void Player::resetLives() {
     lives = 20;
 }
+
+// Resests the players money back to 10000.
+void Player::resetMoney() {
+    money = 10000;
+}

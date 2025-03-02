@@ -36,6 +36,8 @@ bool Game::init() {
     // Setup a fixed resolution to make the view consistent.
     adjustViewFixed();
 
+    scoreboard.loadScores("scores/scores.txt");
+
     // Initialize the UI manager, return if there is a problem.
     if (!uiManager.init()) {
         return false;
@@ -57,6 +59,10 @@ bool Game::init() {
                 } else if (!paused) {
                     std::cout << "Unpaused the game.\n";
                 }
+            } else if (event.key.code == sf::Keyboard::S) {
+                // If the 'S' key is pressed change the pause menu
+                // from a set of instructions to a scoreboard.
+                showScoreboard = !showScoreboard; // Toggle display.
             }
         }
 
@@ -306,10 +312,16 @@ void Game::update(float deltaTime) {
 
     // Check if the players has no lives left. If they dont, generate a new level and cleanup old entities.
     if (player.getLives() <= 0) {
+        // Calculate and add a score to the scoreboard.
+        int score = player.getMoney() + (levelManager.getLevelKillCount() * 50) - (levelManager.getLevelTime() * 2);
+        record newRecord = { score };
+        scoreboard.addScore(newRecord);
+        scoreboard.saveScores("scores/scores.txt");
+
         // Print debug.
         std::cout << "No lives left, generating a new level.\n";
         uiManager.getTowerMenu().close(&soundManager); // Close the tower menu.
-        levelManager.generateNewLevel(); // Generate a new lvel.
+        levelManager.generateNewLevel(); // Generate a new level.
         enemies.clear(); // Clear old enemies.
         towers.clear(); // Clear old towers.
         player.resetLives(); // Reset the players lives back to 20.
@@ -352,6 +364,8 @@ void Game::update(float deltaTime) {
         levelManager.generateNewLevel(); // Generate a new level.
         enemies.clear(); // Delete old enemies.
         towers.clear(); // Delete old towers.
+        player.resetMoney(); // Reset the player money.
+        player.resetLives(); // Reset the players lives back to 20.
         // Print debug.
         std::cout << "New level button clicked. Generating a new level.\n";
     }
@@ -368,11 +382,6 @@ void Game::render() {
     const int tileSize = 64;
     gameMap.draw(window, tileSize);
 
-    // Draw all towers.
-    for (const auto& tower : towers) {
-        tower.draw(window);
-    }
-
     // Draw all enemies.
     for (const auto& enemy : enemies) {
         enemy->draw(window);
@@ -381,6 +390,11 @@ void Game::render() {
     // Draw all projectiles.
     for (const auto& proj : projectiles) {
         proj.draw(window);
+    }
+
+    // Draw all towers.
+    for (const auto& tower : towers) {
+        tower.draw(window);
     }
 
     // Draw all UI elements.
@@ -401,43 +415,49 @@ void Game::render() {
             std::cout << "couldnt load overlay font.\n";
         }
 
-        // Add instructions to the pause overlay.
-        sf::Text instructions;
-        instructions.setFont(font);
-        instructions.setCharacterSize(32);
-        instructions.setFillColor(sf::Color::White);
-        instructions.setString(
-            "                  Paused:\n"
-            "1. To build a tower, click a wall tile and select a tower.\n"
-            "2. When an enemy reaches the pearl you lose one life.\n"
-            "3. Click the new level button to generate a new level.\n"
-            "4. Unit Matchups: Pistol > Marauders, Rifle > Privateers,\n"
-            "   Cannon > Corsairs, Carronade > Captains.\n"
-            "5. Use the number keys (1-4) to quickly place a tower.\n"
-            "6. Press 'P' to unpause or pause the game at any time."
-        );
+        // Check if the scoreboard or instructions should be displayed.
+        if (showScoreboard) {
+            scoreboard.draw(window, font, view.getCenter()); // Draw the scoreboard
+        } else {
+            // Display instructions on the pause overlay.
+            sf::Text instructions;
+            instructions.setFont(font);
+            instructions.setCharacterSize(32);
+            instructions.setFillColor(sf::Color::White);
+            instructions.setString(
+                "                  Paused:\n"
+                "1. To build a tower, click a wall tile and select a tower.\n"
+                "2. When an enemy reaches the pearl you lose one life.\n"
+                "3. Click the new level button to generate a new level.\n"
+                "4. Unit Matchups: Pistol > Marauders, Rifle > Privateers,\n"
+                "   Cannon > Corsairs, Carronade > Captains.\n"
+                "5. Use the number keys (1-4) to quickly place a tower.\n"
+                "6. Press 'P' to unpause or pause the game at any time.\n"
+                "6. Press 'S' to toggle between scores/instructions."
+            );
 
-        // Get the local bounds of the instructions text.
-        sf::FloatRect textBounds = instructions.getLocalBounds();
-        float padding = 30.0f; // Overlay padding
+            // Get the local bounds of the instructions text.
+            sf::FloatRect textBounds = instructions.getLocalBounds();
+            float padding = 30.0f; // Overlay padding
 
-        // Create a semi transparent background rectangle with a white border
-        sf::RectangleShape background(sf::Vector2f(textBounds.width + 2 * padding, textBounds.height + 2 * padding));
-        background.setFillColor(sf::Color(50, 50, 50, 200)); // Dark gray transparent.
-        background.setOutlineColor(sf::Color(255, 255, 255, 200)); // White transparent.
-        background.setOutlineThickness(2.0f);
+            // Create a semi transparent background rectangle with a white border
+            sf::RectangleShape background(sf::Vector2f(textBounds.width + 2 * padding, textBounds.height + 2 * padding));
+            background.setFillColor(sf::Color(50, 50, 50, 200)); // Dark gray transparent.
+            background.setOutlineColor(sf::Color(255, 255, 255, 200)); // White transparent.
+            background.setOutlineThickness(2.0f);
 
-        // Center the origin for the background and overlay.
-        instructions.setOrigin(textBounds.left + textBounds.width / 2, textBounds.top + textBounds.height / 2);
-        background.setOrigin((textBounds.width + 2 * padding) / 2, (textBounds.height + 2 * padding) / 2);
+            // Center the origin for the background and overlay.
+            instructions.setOrigin(textBounds.left + textBounds.width / 2, textBounds.top + textBounds.height / 2);
+            background.setOrigin((textBounds.width + 2 * padding) / 2, (textBounds.height + 2 * padding) / 2);
 
-        // Center the background and overlay.
-        sf::Vector2f center = view.getCenter();
-        background.setPosition(center);
-        instructions.setPosition(center);
+            // Center the background and overlay.
+            sf::Vector2f center = view.getCenter();
+            background.setPosition(center);
+            instructions.setPosition(center);
 
-        window.draw(background); // Draw the background first.
-        window.draw(instructions); // Draw the instructions.
+            window.draw(background); // Draw the background first.
+            window.draw(instructions); // Draw the instructions.
+        }
     }
     // Display the frame on the window.
     window.display();

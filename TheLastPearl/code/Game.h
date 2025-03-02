@@ -16,6 +16,7 @@
 #include "SoundManager.h"
 #include "InputManager.h"
 #include "LevelManager.h"
+#include "Scoreboard.h"
 
 // The game class handles initialization, the loop, updates, rendering, and cleanup.
 class Game {
@@ -47,7 +48,8 @@ private:
 
     sf::RenderWindow window;                   // The games window
     bool running;                              // A flag which indicates if the game is running or not
-    bool paused = true;                       // A flag to pause the game.
+    bool paused = true;                        // A flag to pause the game.
+    bool showScoreboard = false;               // A flag to toggle wether instructions or the scoreboard is displayed.
 
     Map gameMap;                               // The games map.
     Pathfinder pathfinder;                     // A pathfinder to create paths for enemies.
@@ -60,6 +62,7 @@ private:
     SoundManager soundManager;                 // Handles game sounds.
     InputManager inputManager;                 // Processes input events.
     LevelManager levelManager;                 // Manages enemy waves and levels.
+    Scoreboard scoreboard;                     // Handles saving and loading of score.
 
     sf::Clock clock;                           // Keeps track of elapsed time.
 };

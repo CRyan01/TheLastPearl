@@ -30,6 +30,9 @@ public:
     // Restores the players lives to the default value.
     void resetLives();
 
+    // Restores the players lives to the default value.
+    void resetMoney();
+
 private:
     int money;  // How much money the player has.
     int lives;  // How many lives the player has.

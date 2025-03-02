@@ -61,6 +61,9 @@
     <Filter Include="Header Files\Game Manager">
       <UniqueIdentifier>{4d3b5629-e4ba-4815-ade2-b54da5e3913b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{b5dbb315-76a6-4f91-8c59-568a1a79e9c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="code\Map.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="code\Pathfinder.cpp">
       <Filter>Resource Files\Pathfinding</Filter>
+    </ClCompile>
+    <ClCompile Include="code\Scoreboard.cpp">
+      <Filter>Resource Files\User Interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +159,10 @@
       <Filter>Header Files\Game Manager</Filter>
     </ClInclude>
     <ClInclude Include="code\CombatUtilities.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="code\Scoreboard.h">
+      <Filter>Header Files\User Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

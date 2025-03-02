@@ -47,7 +47,7 @@ Enemy::Enemy(const sf::Vector2f& startPos, const std::vector<sf::Vector2i>& path
     enemySprite.setTexture(enemyTexture);
 
     // Scale the sprite down.
-    enemySprite.setScale(0.5f, 0.5f);
+    enemySprite.setScale(0.485f, 0.485f);
 
     // Center the shapes origin and set its initial position.
     shape.setOrigin(10.0f, 10.0f);

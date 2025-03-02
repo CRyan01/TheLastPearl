@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
+#include <iostream>
 #include "Pathfinder.h"
 
 // Constructs a map with the specified width and height in tiles, with specified cluster parameters.
@@ -53,33 +54,107 @@ Tile& Map::getTile(int tileX, int tileY) {
 
 // Draws each tile onto the render window with the dimensions (tileSize x tileSize)
 void Map::draw(sf::RenderWindow& window, int tileSize) const {
-    sf::RectangleShape tileRectangle(sf::Vector2f(tileSize, tileSize));
+    // Load a texture for the water once.
+    static sf::Texture waterTexture;
+    static bool waterTextureLoaded = false;
+    if (!waterTextureLoaded) {
+        // Check if theres an issue loading the texture. (replace with texture holder at some point)
+        if (!waterTexture.loadFromFile("graphics/water.png")) {
+            // If there is print debug.
+            std::cout << "Couldnt load water texture.\n";
+        } else {
+            waterTextureLoaded = true; // Otherwise disable loading the texture again.
+        }
+    }
+
+    // Load a texture for the sand once.
+    static sf::Texture sandTexture;
+    static bool sandTextureLoaded = false;
+    if (!sandTextureLoaded) {
+        // Check if theres an issue loading the texture. (replace with texture holder at some point)
+        if (!sandTexture.loadFromFile("graphics/sand.png")) {
+            // If there is print debug.
+            std::cout << "Couldnt load sand texture.\n";
+        } else {
+            sandTextureLoaded = true; // Otherwise disable loading the texture again.
+        }
+    }
+
+    // Load an alternate texture for the sand once.
+    static sf::Texture alternateSandTexture;
+    static bool alternateSandTextureLoaded = false;
+    if (!alternateSandTextureLoaded) {
+        // Check if theres an issue loading the texture. (replace with texture holder at some point)
+        if (!alternateSandTexture.loadFromFile("graphics/sandAlternate.png")) {
+            // If there is print debug.
+            std::cout << "Couldnt load sand texture.\n";
+        } else {
+            alternateSandTextureLoaded = true; // Otherwise disable loading the texture again.
+        }
+    }
+
+    // Create a sprite for the tiles & scale it to the correct size.
+    sf::Sprite tileSprite;
 
     // Loop through every tile
     for (int tileY = 0; tileY < height; ++tileY) {
         for (int tileX = 0; tileX < width; ++tileX) {
             sf::Vector2i tilePosition(tileX, tileY); // Store current tile position
+            sf::Sprite tileSprite; // Create a new sprite for each tile.
 
             // Check which type of tyle it should be and fill it with the right color.
             if (tilePosition == targetPoint) {
-                tileRectangle.setFillColor(sf::Color::White); // White tile.
-            } else if (std::find(entryPoints.begin(), entryPoints.end(), tilePosition) != entryPoints.end()) {
-                //tileRectangle.setFillColor(sf::Color::Red); // Red tile.
-                tileRectangle.setFillColor(sf::Color(54, 154, 213)); // Water blue.
-            } else if (getTile(tileX, tileY).type == TileType::Wall) {
-                // Apply a checkered pattern to the walls.
-                if ((tileX + tileY) % 2 == 0) {
-                    tileRectangle.setFillColor(sf::Color(237, 201, 175)); // Sand color.
+                // If the tile is a target point.
+                tileSprite.setTexture(waterTexture); // Switch to the water texture.
+            } 
+            else if (std::find(entryPoints.begin(), entryPoints.end(), tilePosition) != entryPoints.end()) {
+                // If the tile is an entry point.
+                tileSprite.setTexture(waterTexture); // Switch to the water texture.
+            } 
+            else if (getTile(tileX, tileY).type == TileType::Wall) {
+                // If the tile is a wall.
+                if ((tileX + tileY) % 2 == 0) { // Apply a checkered pattern by darkening ever second tile.
+                    tileSprite.setTexture(sandTexture); // Switch to the sand texture.
+                } else {
+                    tileSprite.setTexture(alternateSandTexture); // Switch to the alternate sand texture.
                 }
-                else {
-                    tileRectangle.setFillColor(sf::Color(210, 180, 140)); // Slightly darker sand color.
-                }
-            } else {
-                tileRectangle.setFillColor(sf::Color(54, 154, 213)); // Water blue.
+            } 
+            else {
+                // For the initial tile.
+                tileSprite.setTexture(waterTexture); // Switch to the water texture.
             }
+
             // Set the position for the tile then draw it with the right dimensions.
-            tileRectangle.setPosition((tileX * tileSize), (tileY * tileSize));
-            window.draw(tileRectangle);
+            tileSprite.setPosition((tileX * tileSize), (tileY * tileSize));
+            // Set the scale of the tile sprite.
+            tileSprite.setScale(tileSize / waterTexture.getSize().x, tileSize / waterTexture.getSize().y);
+
+            window.draw(tileSprite); // Draw the tile.
+
+            // Draw the pearl over the target tile
+            sf::Vector2f targetPos(targetPoint.x * tileSize + tileSize / 2.0f, targetPoint.y * tileSize + tileSize / 2.0f);
+
+            // Load the texture only once (replace with texture holder at some point)
+            static sf::Texture pearlTexture;
+            static bool textureLoaded = false;
+            if (!textureLoaded) {
+                // Check if theres an issue loading the texture.
+                if (!pearlTexture.loadFromFile("graphics/pearl.png")) {
+                    // If there is print debug.
+                    std::cout << "Couldnt load pearl texture.\n";
+                } else {
+                    textureLoaded = true; // Otherwise disable loading the texture again.
+                }
+            }
+            
+            // Create a sprite for the pearl
+            sf::Sprite pearlSprite;
+            pearlSprite.setTexture(pearlTexture); // Set the sprites texture.
+            sf::FloatRect spriteBounds = pearlSprite.getLocalBounds(); // Get the sprites local bounds.
+            pearlSprite.setScale(2.0f, 2.0f); // Make the pearl slightly bigger.
+            pearlSprite.setOrigin(spriteBounds.width / 2.0f, spriteBounds.height / 2.0f); // Center the sprites origin.
+            pearlSprite.setPosition(targetPos); // Position the sprite in the middle of the target tile.
+            window.draw(pearlSprite); // Draw the pearl sprite.
         }
     }
 }

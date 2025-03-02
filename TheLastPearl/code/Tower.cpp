@@ -34,7 +34,7 @@ void Tower::setupVisual() {
     towerSprite.setOrigin(spriteBounds.width / 2.0f, spriteBounds.height / 2.0f);
 
     // Set the sprites scale and position.
-    towerSprite.setScale(0.5f, 0.5f);
+    towerSprite.setScale(0.8f, 0.8f);
     towerSprite.setPosition(position);
 
     // Set a color based on the towers type.
@@ -94,7 +94,7 @@ void Tower::update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& e
                 switch (type) {
                     case TowerType::Pistol: {
                         // Pistol tower.
-                        projectiles.emplace_back(position, direction, 300.0f, finalDamage, 3.0f, sf::Color::Black, 200.0f);
+                        projectiles.emplace_back(position, direction, 300.0f, finalDamage, 3.0f, sf::Color(70, 70, 70), 150.0f);
 
                         // Check if the sound manager is valid and play a shoot sound.
                         if (soundManager) {
@@ -104,7 +104,7 @@ void Tower::update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& e
                     }
                     case TowerType::Rifle: {
                         // Rifle tower.
-                        projectiles.emplace_back(position, direction, 350.0f, finalDamage, 5.0f, sf::Color(80, 80, 80), 300.0f);
+                        projectiles.emplace_back(position, direction, 350.0f, finalDamage, 5.0f, sf::Color(70, 70, 70), 250.0f);
 
                         // Check if the sound manager is valid and play a shoot sound.
                         if (soundManager) {
@@ -114,7 +114,7 @@ void Tower::update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& e
                     }
                     case TowerType::Cannon: {
                         // Cannon tower.
-                        projectiles.emplace_back(position, direction, 150.0f, finalDamage, 10.0f, sf::Color::Black, 500.0f);
+                        projectiles.emplace_back(position, direction, 150.0f, finalDamage, 10.0f, sf::Color(70, 70, 70), 500.0f);
 
                         // Check if the sound manager is valid and play a shoot sound.
                         if (soundManager) {
@@ -139,7 +139,7 @@ void Tower::update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& e
                             // Convert the new angle back to a directional vector.
                             sf::Vector2f newDirection(std::cos(newAngle), std::sin(newAngle));
                             // Create a projectile with the new spread direction.
-                            projectiles.emplace_back(position, newDirection, 180.0f, finalDamage, 7.0f, sf::Color::Black, 150.0f);
+                            projectiles.emplace_back(position, newDirection, 180.0f, finalDamage, 7.0f, sf::Color(70, 70, 70), 150.0f);
 
                             // Check if the sound manager is valid and play a shoot sound.
                             if (soundManager) {
@@ -160,11 +160,6 @@ void Tower::update(float deltaTime, const std::vector<std::shared_ptr<Enemy>>& e
 void Tower::draw(sf::RenderWindow& window) const {
     // window.draw(visual);
     window.draw(towerSprite);
-}
-
-// Returns the price of a tower.
-float Tower::getPrice() const {
-    return 150.0f;
 }
 
 // A function to calculate the damage of a towers shot.

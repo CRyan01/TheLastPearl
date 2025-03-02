@@ -26,9 +26,6 @@ public:
     // Draws the tower using a simple rectangle shape.
     void draw(sf::RenderWindow& window) const;
 
-    // Returns the tower's price.
-    float getPrice() const;
-
     // Computes the DPS of the tower.
     float calculateDPS() const;
 
